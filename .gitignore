@@ -1,0 +1,15 @@
+# Binaries (ausführbare Dateien)
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+bin/
+main
+
+# Environment / Secret Dateien
+.env
+
+# Editor-spezifische Ordner
+.vscode/
+.idea/
