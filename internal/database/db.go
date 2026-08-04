@@ -34,7 +34,7 @@ func ConnectDB() *pgx.Conn {
 			description text,
 			completed boolean default false,
 			created_at TIMESTAMPTZ default NOW()
-	`
+	);`
 	_, err = conn.Exec(context.Background(), query)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Unable to create table: %v\n", err)
