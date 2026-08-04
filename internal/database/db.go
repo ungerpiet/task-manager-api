@@ -26,6 +26,21 @@ func ConnectDB() *pgx.Conn {
 		fmt.Fprintf(os.Stderr, "Unable to ping database: %v\n", err)
 		os.Exit(1)
 	}
-	println("Database connection successful!")
+
+	query := `
+	create table if not exists tasks (
+			id serial primary key,
+			title text not null,
+			description text,
+			completed boolean default false,
+			created_at TIMESTAMPTZ default NOW()
+	`
+	_, err = conn.Exec(context.Background(), query)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Unable to create table: %v\n", err)
+		os.Exit(1)
+	}
+
+	println("Database connection and table check successful!")
 	return conn
 }
