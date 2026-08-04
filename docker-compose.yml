@@ -1,0 +1,24 @@
+services:
+  db: 
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+
+
+  app:
+    build: .
+    ports:
+      - '8080:8080'
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgres://user:admin@db:5432/postgres
+
+volumes:
+  postgres_data:

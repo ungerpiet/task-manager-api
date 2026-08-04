@@ -9,9 +9,12 @@ import (
 )
 
 func ConnectDB() *pgx.Conn {
-	var user, password, local, port, dbname = "postgres", "admin", "localhost", "5432", "postgres"
-	var dbURL string = fmt.Sprintf("postgresql://%s:%s@%s:%s/%s", user, password, local, port, dbname)
 
+	dbURL, exists := os.LookupEnv("DATABASE_URL")
+	if !exists {
+		var user, password, local, port, dbname = "user", "admin", "localhost", "5432", "postgres"
+		dbURL = fmt.Sprintf("postgresql://%s:%s@%s:%s/%s", user, password, local, port, dbname)
+	}
 	conn, err := pgx.Connect(context.Background(), dbURL)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
