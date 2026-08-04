@@ -16,4 +16,4 @@ Eine REST-API zur Aufgabenverwaltung (Task Management), gebaut mit **Go (Gin Fra
 
 1. **Repository klonen / Ordner öffnen:**
    ```bash
-   cd go-task-api
+   docker compose up --build
