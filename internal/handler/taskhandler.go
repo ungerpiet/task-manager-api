@@ -71,3 +71,33 @@ func (r *TaskHandler) GetTaskByID(c *gin.Context) {
 
 	c.JSON(http.StatusOK, task)
 }
+
+func (r *TaskHandler) UpdateTask(c *gin.Context) {
+	idStr := c.Param("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID format"})
+		return
+	}
+
+	var req model.Task
+
+	if err := c.ShouldBindJSON(&req); err != nil {
+		fmt.Println("BindJSON Error:", err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request body"})
+		return
+	}
+
+	err = r.repo.Update(&req, id)
+	if errors.Is(err, pgx.ErrNoRows) {
+		fmt.Println("Update DB Error:", err)
+		c.JSON(http.StatusNotFound, gin.H{"error": "Task not found"})
+		return
+	}
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Internal server error"})
+		return
+	}
+	req.ID = id
+	c.JSON(http.StatusOK, req)
+}

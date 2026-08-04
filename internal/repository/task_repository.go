@@ -65,5 +65,25 @@ func (r *TaskRepository) GetByID(id int) (*model.Task, error) {
 	return &t, nil
 }
 
-//func (r *TaskRepository) Create(task *model.Task) error {}
+func (r *TaskRepository) Update(task *model.Task, id int) error {
+	commandTag, err := r.db.Exec(
+		context.Background(),
+		"UPDATE tasks SET title = $1, description = $2, completed = $3 WHERE id = $4",
+		task.Title,
+		task.Description,
+		task.Completed,
+		id,
+	)
+
+	if err != nil {
+		return err
+	}
+
+	if commandTag.RowsAffected() == 0 {
+		return pgx.ErrNoRows
+	}
+
+	return nil
+}
+
 //func (r *TaskRepository) Create(task *model.Task) error {}

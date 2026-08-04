@@ -24,6 +24,7 @@ func main() {
 	r.POST("/tasks", handler.CreateTask)
 
 	r.GET("/tasks/:id", handler.GetTaskByID)
+	r.PUT("/tasks/:id", handler.UpdateTask)
 
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"message": "pong"})
