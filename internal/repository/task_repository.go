@@ -86,4 +86,20 @@ func (r *TaskRepository) Update(task *model.Task, id int) error {
 	return nil
 }
 
-//func (r *TaskRepository) Create(task *model.Task) error {}
+func (r *TaskRepository) Delete(id int) error {
+	commandTag, err := r.db.Exec(
+		context.Background(),
+		"DELETE FROM tasks WHERE id = $1",
+		id,
+	)
+
+	if err != nil {
+		return err
+	}
+
+	if commandTag.RowsAffected() == 0 {
+		return pgx.ErrNoRows
+	}
+
+	return nil
+}

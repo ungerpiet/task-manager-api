@@ -25,6 +25,7 @@ func main() {
 
 	r.GET("/tasks/:id", handler.GetTaskByID)
 	r.PUT("/tasks/:id", handler.UpdateTask)
+	r.DELETE("/tasks/:id", handler.DeleteTask)
 
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"message": "pong"})

@@ -101,3 +101,23 @@ func (r *TaskHandler) UpdateTask(c *gin.Context) {
 	req.ID = id
 	c.JSON(http.StatusOK, req)
 }
+
+func (r *TaskHandler) DeleteTask(c *gin.Context) {
+	idStr := c.Param("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID format"})
+		return
+	}
+
+	err = r.repo.Delete(id)
+	if errors.Is(err, pgx.ErrNoRows) {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Task not found"})
+		return
+	}
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete task"})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"message": "Task deleted successfully"})
+}
