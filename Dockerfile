@@ -9,12 +9,10 @@ COPY . .
 RUN CGO_ENABLED=0 GOOS=linux go build -o main cmd/api/main.go
 
 FROM alpine:latest
-
-WORKDIR /root/
-
+WORKDIR /app
 COPY --from=builder /usr/src/app/main .
+COPY --from=builder /usr/src/app/web ./web
 
 EXPOSE 8080
-
 CMD ["./main"]
 
