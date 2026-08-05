@@ -19,7 +19,6 @@ function loadTasks() {
 
                 list.appendChild(li);
                 li.appendChild(deleteBtn);
-
                 });
             }
         });
@@ -52,7 +51,7 @@ function createTask() {
 }
 
 window.onload = function(){
-    loadTasks;
+    loadTasks();
 
     document.getElementById('task-form').addEventListener('submit', function(event) {
         event.preventDefault();
