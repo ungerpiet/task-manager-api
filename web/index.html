@@ -8,8 +8,10 @@
 
     <h1>Meine Tasks</h1>
 
-    <input type="text" id="task-input" placeholder="Neuer Task...">
-    <button onclick="createTask()">Hinzufügen</button>
+    <form id="task-form">
+        <input type="text" id="task-input" placeholder="Neuer Task...">
+        <button id="add-task-btn" onclick="createTask()">Hinzufügen</button>
+    </form>
 
     <ul id="task-list"></ul>
 
